@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/chinook_db/chinook.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="5283"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,5:mainAlbum"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">/* Query 1 */
+SELECT BillingCountry , count(*) AS Invoices
+FROM Invoice i
+JOIN Customer c
+ON c.CustomerId = i.CustomerId
+GROUP BY 1
+ORDER BY Invoices DESC ;
+
+/* Query 2 */
+SELECT C.City , sum(I.Total) AS Invoice_Totals
+FROM Invoice I 
+JOIN Customer C
+ON C.CustomerId = I.CustomerId
+GROUP BY 1
+ORDER BY 2 DESC ;
+
+/* Query 3 */
+SELECT a.artistid, a.name, count(*) AS 'Songs'
+FROM Artist a
+JOIN Album al
+ON a.ArtistId = al.ArtistId
+JOIN Track t
+ON al.AlbumId = t.AlbumId
+WHERE  t.genreid = (SELECT genreid FROM   genre WHERE  name = 'Rock')
+GROUP  BY 1
+ORDER  BY 3 DESC
+LIMIT 10;
+
+
+/* Query 4 */
+SELECT T.Name , count(*) AS Songs
+FROM Customer C
+JOIN Invoice I
+ON C.CustomerId = I.CustomerId
+JOIN InvoiceLine IL
+ON I.InvoiceId = IL.InvoiceId
+JOIN Track T
+ON T.TrackId = IL.TrackId
+JOIN Album A
+ON A.AlbumId = T.AlbumId
+GROUP BY 1
+ORDER BY 2 DESC 
+LIMIT 5;</sql><current_tab id="0"/></tab_sql></sqlb_project>
